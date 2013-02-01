@@ -1,6 +1,14 @@
+/**
+ * morsify.js is function that translates text (latin characters + special chars + digits)
+ * in the DOM into morse code.
+ *
+ * @author J. Dettmar <dettmar at gmail.com>
+ * @return "string" time of execution
+ */
+
 (function morsify() {
 
-	var	start = (new Date()).getTime();
+	var start = (new Date()).getTime();
 		chars = {
 		
 		// alphanumerical
