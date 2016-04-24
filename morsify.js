@@ -2,15 +2,15 @@
  * morsify.js is function that translates text (latin characters + special chars + digits)
  * in the DOM into morse code.
  *
- * @author J. Dettmar <dettmar at gmail.com>
- * @return "string" time of execution
+ * @author J. Dettmar [http://dettmar.se]
+ * @license [http://www.wtfpl.net/] WTFPL
  */
 
 (function morsify() {
 
 	var start = (new Date()).getTime();
-		chars = {
-		
+	var chars = {
+
 		// alphanumerical
 		"a": ".-",
 		"b": "-...",
@@ -48,7 +48,7 @@
 		"7": "--...",
 		"8": "---..",
 		"9": "----.",
-		
+
 		// non-english
 		"ä": ".-.-",
 		"æ": ".-.-",
@@ -66,7 +66,7 @@
 		"ø": "---.",
 		"ó": "---.",
 		"ü": "..--",
-		
+
 		// special chars
 		"?": "..--..",
 		"¿": "..-.-",
@@ -92,32 +92,31 @@
 		"§": "...-.",
 		"~": "-.-.-"
 	};
-	
+
 	function walkTheDOM() {
-    
-	    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false),
-	    	node;
-	
-	    while(node = walker.nextNode()) node.nodeValue = getMorsifiedText(node.nodeValue);
-	    
-	    return ["Content morsified in", (new Date()).getTime() - start, "ms"].join(" ");
+
+		var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false),
+			node;
+
+		while(node = walker.nextNode())
+			node.nodeValue = getMorsifiedText(node.nodeValue);
 	}
-	
+
 	function getMorsifiedText(textString) {
-		
-		function replaceCharsWithMorse(match, p, offset){
-				
+
+		function replaceCharsWithMorse(match, p, offset) {
+
 			var lower = match.toLowerCase();
-			
 			return (chars[lower]) ? chars[lower] + " " : match;
 		}
-		
+
 		return textString
 			.replace(/\s/, "  &nbsp; ")
-			//.replace(/[\?\¿\!\¡\,\.\=\-\+\(\)\@\/\%\"\'\;\:\&\#\$\§\~]/gi, replaceCharsWithMorse)
 			.replace(/[äæąàåçĉćèéñńöøóü]/gi, replaceCharsWithMorse)
 			.replace(/[a-z0-9]/gi, replaceCharsWithMorse);
 	}
-	
-	return walkTheDOM();
+
+	console.time("Content morsified in");
+	walkTheDOM();
+	console.timeEnd("Content morsified in");
 })();
